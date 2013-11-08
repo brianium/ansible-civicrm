@@ -1,0 +1,30 @@
+---
+- name: Mysql | Set password selection
+  sudo: yes
+  raw: debconf-set-selections <<< 'mysql-server-{{mysql_server_version}} mysql-server/root_password password {{mysql_password}}'
+  tags: mysql
+
+- name: Mysql | Set password confirmation selection
+  sudo: yes
+  raw: debconf-set-selections <<< 'mysql-server-{{mysql_server_version}} mysql-server/root_password_again password {{mysql_password}}'
+  tags: mysql
+
+- name: Mysql | Install mysql and related components
+  sudo: yes
+  apt: pkg=mysql-server-{{mysql_server_version}}
+  tags: mysql
+
+- name: Mysql | Install php mysql module
+  sudo: yes
+  apt: pkg=php5-mysql
+  tags: mysql
+
+- name: Mysql | Run install db script
+  sudo: yes
+  command: mysql_install_db
+  tags: mysql
+
+- name: Mysql | Install python mysql module
+  sudo: yes
+  apt: pkg=python-mysqldb
+  tags: mysql

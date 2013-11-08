@@ -1,0 +1,11 @@
+---
+- hosts: all
+  user: root
+
+  roles:
+    - common
+    - apache
+    - mysql
+    - php
+    - wordpress
+    - civicrm

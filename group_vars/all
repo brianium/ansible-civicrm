@@ -1,0 +1,11 @@
+---
+mysql_server_version: 5.5
+mysql_password: root
+mysql_user: root
+wordpress_database: civiwp
+wordpress_database_user: civiwpuser
+wordpress_database_password: civiwppass
+civicrm_version: 4.4.1
+civicrm_database: civicrm
+civicrm_database_user: civiuser
+civicrm_database_password: civipass

@@ -1,0 +1,25 @@
+---
+- name: PHP | Install latest php5
+  sudo: yes
+  apt: pkg=php5
+  tags: php
+
+- name: PHP | Install php5 apache support
+  sudo: yes
+  apt: pkg=libapache2-mod-php5
+  tags: php
+
+- name: PHP | Install php5 mcrypt support
+  sudo: yes
+  apt: pkg=php5-mcrypt
+  tags: php
+
+- name: PHP | Install php5 gd support
+  sudo: yes
+  apt: pkg=php5-gd
+  tags: php
+
+- name: PHP | Restart server after PHP config
+  sudo: yes
+  service: name=apache2 state=restarted
+  tags: php

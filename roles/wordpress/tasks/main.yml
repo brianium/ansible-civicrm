@@ -1,0 +1,35 @@
+---
+- name: Wordpress | Download wordpress
+  command: wget http://wordpress.org/latest.tar.gz
+  tags: wordpress
+
+- name: Wordpress | Extract archive
+  command: /bin/tar xvf latest.tar.gz -C /var/www/ --strip 1
+  tags: wordpress
+
+- name: Wordpress | Create the wordpress database
+  mysql_db: login_user={{mysql_user}} login_password={{mysql_password}} name={{wordpress_database}} state=present
+  tags: wordpress
+
+- name: Wordpress | Fetch random salts for Wordpress config
+  local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
+  register: wp_salt
+  tags: wordpress 
+
+- name: Wordpress | Create Wordpress database user
+  mysql_user: login_user={{mysql_user}} login_password={{mysql_password}} name={{ wordpress_database_user }} password={{ wordpress_database_password }} priv={{ wordpress_database }}.*:ALL host='localhost' state=present
+  tags: wordpress
+
+- name: Wordpress | Copy Wordpress config file
+  template: src=wp-config.php dest=/var/www/
+  tags: wordpress
+
+- name: Wordpress | Give ownership to apache user
+  sudo: yes
+  shell: chdir=/var/www/ chown www-data:www-data * -R
+  tags: wordpress
+
+- name: Wordpress | Add user to www-data group
+  sudo: yes
+  command: chdir=/var/www/ usermod -a -G www-data {{ ansible_user_id }}
+  tags: wordpress

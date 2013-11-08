@@ -1,0 +1,10 @@
+---
+- name: Apache | Install apache2
+  sudo: yes
+  apt: pkg=apache2 state=present
+  tags: apache
+
+- name: Apache | Update directory index
+  sudo: yes
+  template: src=dir.conf dest=/etc/apache2/mods-enabled/
+  tags: apache
